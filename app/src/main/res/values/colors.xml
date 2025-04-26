@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores base -->
+    <color name="primary">#2E4053</color>
+    <color name="primary_dark">#1A2632</color>
+    <color name="primary_light">#3D5368</color>
+    <color name="secondary">#3498DB</color>
+    <color name="background">#F5F7FA</color>
+    <color name="surface">#FFFFFF</color>
+
+    <!-- Colores para eventos -->
+    <color name="prenhez_color">#8E44AD</color>
+    <color name="celo_color">#E74C3C</color>
+    <color name="parto_color">#27AE60</color>
+    <color name="destete_color">#2980B9</color>
+
+    <!-- Textos -->
+    <color name="text_primary">#2C3E50</color>
+    <color name="text_secondary">#7F8C8D</color>
+    <color name="text_white">#FFFFFF</color>
+
+    <!-- Componentes -->
+    <color name="chip_background">#E3E8ED</color>
+    <color name="chip_stroke">#CBD2D9</color>
+    <color name="divider">#D6DBDF</color>
+
+    <!-- Agrega estos colores para botones -->
+    <color name="button_primary">#2E4053</color>  <!-- Azul oscuro -->
+    <color name="button_danger">#E74C3C</color>   <!-- Rojo para acciones peligrosas -->
+    <color name="button_success">#27AE60</color>  <!-- Verde para acciones positivas -->
+    <color name="button_warning">#F39C12</color> <!-- Amarillo/naranja para advertencias -->
+
+
+</resources>

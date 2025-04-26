@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Control Porcino CHL</string>
+    <string name="registrar_cerda">Registrar nueva cerda</string>
+    <string name="ver_cerdas">Ver cerdas registradas</string>
+    <string name="ver_calendario">Ver calendario de eventos</string>
+    <string name="id_cerda">ID de la cerda</string>
+    <string name="seleccionar_fecha">Seleccionar fecha de preñez</string>
+    <string name="guardar">Guardar</string>
+    <string name="ver_detalles">Ver detalles completos</string>
+    <string name="version_app">Versión 1.0</string>
+
+    <string name="buscar_por_id">Buscar por ID...</string>
+    <string name="eventos_del_dia">Eventos del día</string>
+</resources>

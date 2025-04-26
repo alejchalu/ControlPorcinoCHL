@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/background"
+    tools:context=".MainActivity">
+
+    <!-- Texto con emoji de cerdo -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="24dp"
+        android:text="🐖"
+        android:textSize="64sp"
+        android:contentDescription="@string/app_name"/>
+
+    <!-- Título de la aplicación -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/primary"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="32dp"/>
+
+    <!-- Botón Registrar nueva cerda -->
+    <Button
+        android:id="@+id/btnRegistrarNueva"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/registrar_cerda"
+        android:layout_marginBottom="16dp"
+        style="@style/ButtonStyle"/>
+
+    <!-- Botón Ver cerdas registradas -->
+    <Button
+        android:id="@+id/btnVerCerdas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ver_cerdas"
+        android:layout_marginBottom="16dp"
+        style="@style/ButtonStyle"/>
+
+    <!-- Botón Ver calendario de eventos -->
+    <Button
+        android:id="@+id/btnVerCalendario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ver_calendario"
+        style="@style/ButtonStyle"/>
+
+    <!-- Espacio flexible para empujar la versión hacia abajo -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- Versión de la aplicación -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/version_app"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>
