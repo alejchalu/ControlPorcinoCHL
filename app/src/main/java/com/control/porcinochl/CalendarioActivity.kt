@@ -52,6 +52,12 @@ class CalendarioActivity : AppCompatActivity() {
         rvEventos.layoutManager = LinearLayoutManager(this)
         rvEventos.setHasFixedSize(true)
 
+        // Seleccionar automáticamente el día actual al iniciar
+        val hoy = CalendarDay.today()
+        calendarView.selectedDate = hoy
+        fechaSeleccionada = hoy
+        mostrarEventosFecha(hoy)
+
         calendarView.setOnDateChangedListener { _, date, selected ->
             if (selected) {
                 fechaSeleccionada = date
@@ -63,10 +69,9 @@ class CalendarioActivity : AppCompatActivity() {
             fechaSeleccionada?.let { fecha ->
                 val eventos = eventosMap[fecha] ?: emptyList()
                 if (eventos.isNotEmpty()) {
-                    // Formateo correcto de la fecha (mes +1 porque CalendarDay usa 0-11)
                     val fechaISO = String.format(Locale.US, "%04d-%02d-%02d",
                         fecha.year,
-                        fecha.month + 1,  // ¡Corrección clave aquí!
+                        fecha.month + 1,
                         fecha.day)
 
                     Log.d("CALENDARIO_DEBUG", "Enviando fecha formateada: $fechaISO")

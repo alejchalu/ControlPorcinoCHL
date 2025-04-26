@@ -1,39 +1,52 @@
 package com.control.porcinochl
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.widget.BaseAdapter
 import android.widget.TextView
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 
 class CerdaAdapter(
     private val context: Context,
-    private val cerdas: List<Cerda>
-) : ArrayAdapter<Cerda>(context, R.layout.item_cerda, cerdas) {
+    private var cerdas: List<Cerda>
+) : BaseAdapter() {
+
+    private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+    fun actualizarDatos(nuevasCerdas: List<Cerda>) {
+        this.cerdas = nuevasCerdas
+        notifyDataSetChanged()
+    }
+
+    override fun getCount(): Int = cerdas.size
+
+    override fun getItem(position: Int): Cerda = cerdas[position]
+
+    override fun getItemId(position: Int): Long = position.toLong()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = convertView ?: LayoutInflater.from(context)
             .inflate(R.layout.item_cerda, parent, false)
 
-        val cerda = getItem(position) ?: return view
+        val cerda = getItem(position)
 
         // Configurar vistas
         view.findViewById<TextView>(R.id.txtIdCerda).text = "ID: ${cerda.id}"
+        view.findViewById<TextView>(R.id.txtFechaPrenez).text = "Preñez: ${dateFormat.format(cerda.fechaPrenez)}"
 
-        val fechaPrenez = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(cerda.fechaPrenez)
-        view.findViewById<TextView>(R.id.txtFechaPrenez).text = "Preñez: $fechaPrenez"
-
-        // Calcular próximo evento
+        // Configurar próximo evento
         val (proximoEvento, color) = calcularProximoEvento(cerda)
         view.findViewById<TextView>(R.id.txtProximoEvento).apply {
             text = proximoEvento
             setTextColor(color)
         }
+
+        // Configurar fechas de eventos
+        view.findViewById<TextView>(R.id.txtFechaCelo).text = "Celo: ${dateFormat.format(cerda.fechaCelo)}"
+        view.findViewById<TextView>(R.id.txtFechaParto).text = "Parto: ${dateFormat.format(cerda.fechaParto)}"
 
         return view
     }
@@ -44,9 +57,9 @@ class CerdaAdapter(
         val fechaParto = Calendar.getInstance().apply { time = cerda.fechaParto }
 
         return when {
-            hoy.before(fechaCelo) -> Pair("Próximo: Celo", Color.parseColor("#D32F2F"))
-            hoy.before(fechaParto) -> Pair("Próximo: Parto", Color.parseColor("#388E3C"))
-            else -> Pair("Próximo: Destete", Color.parseColor("#1976D2"))
+            hoy.before(fechaCelo) -> Pair("PRÓXIMO: CELO", context.getColor(R.color.celo_color))
+            hoy.before(fechaParto) -> Pair("PRÓXIMO: PARTO", context.getColor(R.color.parto_color))
+            else -> Pair("PRÓXIMO: DESTETE", context.getColor(R.color.destete_color))
         }
     }
 }

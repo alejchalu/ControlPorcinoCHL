@@ -33,7 +33,7 @@ class RegistrarCerdaActivity : AppCompatActivity() {
         btnFecha.setOnClickListener {
             val ahora = Calendar.getInstance()
             DatePickerDialog(
-                this@RegistrarCerdaActivity, // Cambiado a this@RegistrarCerdaActivity
+                this@RegistrarCerdaActivity,
                 R.style.DatePickerTheme,
                 { _, year, month, dayOfMonth ->
                     val fecha = Calendar.getInstance().apply {
@@ -48,7 +48,6 @@ class RegistrarCerdaActivity : AppCompatActivity() {
             ).show()
         }
 
-        // Resto del código permanece igual...
         btnGuardar.setOnClickListener {
             val id = edtId.text.toString().trim()
 
@@ -80,7 +79,6 @@ class RegistrarCerdaActivity : AppCompatActivity() {
                     }
 
                     db.cerdaDao().insertar(cerda)
-                    (application as MyApp).verificarEventosProximos(this@RegistrarCerdaActivity)
 
                     runOnUiThread {
                         Toast.makeText(
