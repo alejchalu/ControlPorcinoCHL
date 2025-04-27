@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -20,6 +21,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.control.porcinochl.databinding.ActivityMainBinding
+import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -62,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         createNotificationChannel()
         setupButtons()
         checkAndRequestPermissions()
+        programarAlarmaDiaria() // <--- AGREGADO AQUÍ
     }
 
     private fun createNotificationChannel() {
@@ -93,59 +96,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, CalendarioActivity::class.java))
         }
 
-        binding.btnTestNotif.setOnClickListener {
-            showTestNotification()
-        }
-    }
-
-    private fun showTestNotification() {
-        // Verificar permiso primero (Android 13+)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                Toast.makeText(
-                    this,
-                    "Primero concede permiso de notificaciones",
-                    Toast.LENGTH_SHORT
-                ).show()
-                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                return
-            }
-        }
-
-        // Construir y mostrar notificación de prueba
-        val notification = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle("Prueba de notificación")
-            .setContentText("¡Esta es una notificación de prueba exitosa!")
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
-            .build()
-
-        with(NotificationManagerCompat.from(this)) {
-            try {
-                notify(999, notification) // ID único para notificación de prueba
-                Toast.makeText(
-                    this@MainActivity,
-                    "Notificación de prueba enviada",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } catch (e: Exception) {
-                Log.e("Notificación", "Error al mostrar notificación: ${e.message}")
-                Toast.makeText(
-                    this@MainActivity,
-                    "Error al mostrar notificación",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
     }
 
     private fun checkAndRequestPermissions() {
-        // Permiso de notificaciones (Android 13+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
                     this,
@@ -163,7 +116,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Permiso de alarmas exactas (Android 12+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val alarmManager = getSystemService(AlarmManager::class.java)
             if (!alarmManager.canScheduleExactAlarms()) {
@@ -210,5 +162,45 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Toast.makeText(this, "Abre Configuración > Alarmas exactas", Toast.LENGTH_LONG).show()
         }
+    }
+
+    // 🔥🔥🔥 NUEVO: Programar la alarma diaria
+    private fun programarAlarmaDiaria() {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        val intent = Intent(this, NotificacionReceiver::class.java).apply {
+            action = "com.control.porcinochl.ACTION_NOTIFICATION"
+        }
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+        )
+
+        val calendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 7) // 8:00 a.m.
+            set(Calendar.MINUTE, 30)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            if (before(Calendar.getInstance())) {
+                add(Calendar.DATE, 1) // Si ya pasó hoy, poner para mañana
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
+            Log.w("Alarma", "No se puede programar alarmas exactas en este dispositivo")
+            return
+        }
+
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            pendingIntent
+        )
+
+        Log.d("Alarma", "Alarma diaria programada a las 7:30 AM")
     }
 }

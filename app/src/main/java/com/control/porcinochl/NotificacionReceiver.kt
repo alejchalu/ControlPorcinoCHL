@@ -57,7 +57,7 @@ class NotificacionReceiver : BroadcastReceiver() {
 
             val notification = NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle("🐖 Eventos hoy")
+                .setContentTitle("🐖 Eventos de hoy")
                 .setContentText("Revisa los eventos programados para tus cerdas")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
@@ -116,7 +116,7 @@ class NotificacionReceiver : BroadcastReceiver() {
             val calendar = Calendar.getInstance().apply {
                 timeInMillis = System.currentTimeMillis()
                 set(Calendar.HOUR_OF_DAY, 7) // 🕖 Hora de la notificación diaria: 7 AM
-                set(Calendar.MINUTE, 0)
+                set(Calendar.MINUTE, 30)
                 set(Calendar.SECOND, 0)
                 set(Calendar.MILLISECOND, 0)
 
@@ -139,7 +139,7 @@ class NotificacionReceiver : BroadcastReceiver() {
                 )
             }
 
-            Log.d(TAG, "Notificación reprogramada para las 7:00 AM")
+            Log.d(TAG, "Notificación reprogramada para las 7:30 AM")
         } catch (e: Exception) {
             Log.e(TAG, "Error al reprogramar notificación: ${e.message}")
         }

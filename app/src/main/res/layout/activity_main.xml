@@ -72,12 +72,4 @@
         android:gravity="center"
         android:layout_marginTop="16dp"/>
 
-    <!-- Botón de prueba para notificaciones -->
-    <Button
-        android:id="@+id/btnTestNotif"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Probar Notificación"
-        android:layout_marginTop="16dp"/>
-
 </LinearLayout>
