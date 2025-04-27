@@ -13,6 +13,6 @@ data class Cerda(
     val fechaDestete: Date = Date(fechaParto.time + 21 * 86400000L) // 21 días después del parto
 ) {
     init {
-        require(id.isNotBlank()) { "El ID no puede estar vacío" }
+        require(id.isNotBlank()) { "El arete no puede estar vacío" }
     }
 }

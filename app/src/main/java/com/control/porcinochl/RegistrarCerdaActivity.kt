@@ -52,7 +52,7 @@ class RegistrarCerdaActivity : AppCompatActivity() {
             val id = edtId.text.toString().trim()
 
             if (id.isEmpty()) {
-                Toast.makeText(this, "El ID de la cerda no puede estar vacío", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "El arete de la cerda no puede estar vacío", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -71,7 +71,7 @@ class RegistrarCerdaActivity : AppCompatActivity() {
                         runOnUiThread {
                             Toast.makeText(
                                 this@RegistrarCerdaActivity,
-                                "Ya existe una cerda con este ID",
+                                "Ya existe una cerda con ese arete",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }

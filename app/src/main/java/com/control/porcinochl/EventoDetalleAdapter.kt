@@ -26,12 +26,12 @@ class EventoDetalleAdapter(
     }
 
     override fun onBindViewHolder(holder: EventoViewHolder, position: Int) {
-        val evento = eventos[position]
+        val evento = eventos[position] // Obtener el evento actual
         val cerda = cerdas[evento.idCerda]
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
         holder.txtTipo.text = "Tipo: ${evento.tipo}"
-        holder.txtIdCerda.text = "Cerda ID: ${evento.idCerda}"
+        holder.txtIdCerda.text = "Arete: ${evento.idCerda}" // Texto actualizado
         holder.txtFechaPreñez.text = cerda?.let {
             "Fecha de preñez: ${dateFormat.format(it.fechaPrenez)}"
         } ?: "Fecha de preñez: No disponible"

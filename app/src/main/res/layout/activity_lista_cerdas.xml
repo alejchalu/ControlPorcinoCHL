@@ -9,7 +9,7 @@
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Buscar por ID..."
+        android:queryHint="@string/buscar_por_arete"
         android:iconifiedByDefault="false"
         android:theme="@style/SearchViewStyle"/>
 

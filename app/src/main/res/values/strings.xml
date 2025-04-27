@@ -11,4 +11,9 @@
 
     <string name="buscar_por_id">Buscar por ID...</string>
     <string name="eventos_del_dia">Eventos del día</string>
+
+    <!-- Cambios en los textos -->
+    <string name="buscar_por_arete">Buscar por arete...</string>
+    <string name="arete_cerda">Arete: %1$s</string>
+    <string name="cerda_arete">Cerda arete: %1$s</string> <!-- Para detalles -->
 </resources>

@@ -30,6 +30,8 @@ class DetalleCerdaActivity : AppCompatActivity() {
             finish()
             return
         }
+        // En onCreate(), después de obtener el ID:
+        title = "Detalle: Arete $idCerda" // Antes: "Detalle: ID $idCerda"
 
         fechaPrenez = Date(intent.getLongExtra("fechaPrenez", -1)).takeIf { it.time > 0 } ?: run {
             Toast.makeText(this, "Error: Fecha no válida", Toast.LENGTH_SHORT).show()
@@ -47,13 +49,11 @@ class DetalleCerdaActivity : AppCompatActivity() {
         val fechaDestete = calcularFecha(fechaParto, 21)
 
         findViewById<TextView>(R.id.textDetalle).text = """
-            ID de la cerda: $idCerda
-
-            Fecha de preñez: ${dateFormat.format(fechaPrenez)}
-            Repetición de celo: ${dateFormat.format(fechaCelo)}
-            Parto estimado: ${dateFormat.format(fechaParto)}
-            Destete estimado: ${dateFormat.format(fechaDestete)}
-        """.trimIndent()
+        Fecha de preñez: ${dateFormat.format(fechaPrenez)}
+        Repetición de celo: ${dateFormat.format(fechaCelo)}
+        Parto estimado: ${dateFormat.format(fechaParto)}
+        Destete estimado: ${dateFormat.format(fechaDestete)}
+    """.trimIndent()
     }
 
     private fun configurarBotones() {

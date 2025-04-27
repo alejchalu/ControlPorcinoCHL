@@ -27,7 +27,7 @@ class EventoAdapter(
         val evento = eventos[position]
         holder.viewColor.setBackgroundColor(evento.color)
         holder.txtTipoEvento.text = evento.tipo
-        holder.txtIdCerda.text = "Cerda ID: ${evento.idCerda}"
+        holder.txtIdCerda.text = "Arete: ${evento.idCerda}"
         holder.itemView.setOnClickListener { onItemClick(evento) }
     }
 
