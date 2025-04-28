@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
@@ -17,9 +18,17 @@ class ListaCerdasActivity : AppCompatActivity() {
     private lateinit var listView: ListView
     private lateinit var progressBar: ProgressBar
     private lateinit var searchView: SearchView
-    private lateinit var adapter: CerdaAdapter // Cambiado a CerdaAdapter
+    private lateinit var adapter: CerdaAdapter
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     private var cerdas = mutableListOf<Cerda>()
+
+    private val resultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            cargarCerdas(true)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,14 +38,20 @@ class ListaCerdasActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
         searchView = findViewById(R.id.searchView)
 
-        // Configurar el adaptador personalizado
         adapter = CerdaAdapter(this, cerdas)
         listView.adapter = adapter
 
-        // Configurar búsqueda
+        listView.setOnItemClickListener { _, _, position, _ ->
+            val cerda = adapter.getItem(position)
+            val intent = Intent(this, DetalleCerdaActivity::class.java).apply {
+                putExtra("id", cerda.id)
+                putExtra("fechaPrenez", cerda.fechaPrenez.time)
+            }
+            resultLauncher.launch(intent)
+        }
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean = false
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let { filtrarCerdas(it) }
                 return true
@@ -46,15 +61,19 @@ class ListaCerdasActivity : AppCompatActivity() {
         cargarCerdas()
     }
 
-    private fun cargarCerdas() {
+    override fun onResume() {
+        super.onResume()
+        cargarCerdas()
+    }
+
+    private fun cargarCerdas(forceRefresh: Boolean = false) {
         lifecycleScope.launch {
             try {
                 mostrarCargando(true)
                 val db = AppDatabase.getDatabase(this@ListaCerdasActivity)
                 cerdas = withContext(Dispatchers.IO) {
                     db.cerdaDao().obtenerTodas()
-                }.toMutableList()
-
+                }.sortedBy { it.id }.toMutableList() // Ordenar por ID
                 actualizarLista(cerdas)
             } catch (e: Exception) {
                 mostrarError("Error al cargar cerdas: ${e.message}")
@@ -75,16 +94,7 @@ class ListaCerdasActivity : AppCompatActivity() {
 
     private fun actualizarLista(cerdasLista: List<Cerda>) {
         runOnUiThread {
-            adapter.actualizarDatos(cerdasLista) // Usamos el nuevo método del adapter
-
-            listView.setOnItemClickListener { _, _, position, _ ->
-                val cerda = cerdasLista[position]
-                val intent = Intent(this, DetalleCerdaActivity::class.java).apply {
-                    putExtra("id", cerda.id)
-                    putExtra("fechaPrenez", cerda.fechaPrenez.time)
-                }
-                startActivity(intent)
-            }
+            adapter.actualizarDatos(cerdasLista)
         }
     }
 

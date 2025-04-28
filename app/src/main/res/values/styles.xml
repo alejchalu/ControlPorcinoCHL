@@ -18,9 +18,15 @@
 
     <!-- Estilo para AlertDialog/DatePicker -->
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimary">@color/surface</item>
         <item name="colorSurface">@color/surface</item>
-        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorPrimary">@color/surface</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AlertDialogButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AlertDialogButton</item>
+    </style>
+
+    <style name="AlertDialogButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/surface</item> <!-- Cambia aquí el color del texto de los botones -->
     </style>
 
     <!-- Estilo para botones -->

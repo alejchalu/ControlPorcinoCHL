@@ -6,15 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import java.text.SimpleDateFormat
-import java.util.*
 
 class CerdaAdapter(
     private val context: Context,
     private var cerdas: List<Cerda>
 ) : BaseAdapter() {
-
-    private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
     fun actualizarDatos(nuevasCerdas: List<Cerda>) {
         this.cerdas = nuevasCerdas
@@ -32,12 +28,8 @@ class CerdaAdapter(
             .inflate(R.layout.item_cerda, parent, false)
 
         val cerda = getItem(position)
-
-        // Mostrar arete
         view.findViewById<TextView>(R.id.txtIdCerda).text = "Arete: ${cerda.id}"
-
 
         return view
     }
-
 }

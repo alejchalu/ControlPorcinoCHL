@@ -24,8 +24,10 @@ class CalendarioActivity : AppCompatActivity() {
 
     private var COLOR_PREÑEZ by Delegates.notNull<Int>()
     private var COLOR_CELO by Delegates.notNull<Int>()
+    private var COLOR_JAULAMATERNIDAD by Delegates.notNull<Int>()
     private var COLOR_PARTO by Delegates.notNull<Int>()
     private var COLOR_DESTETE by Delegates.notNull<Int>()
+    private var COLOR_EVENTO by Delegates.notNull<Int>()
 
     private lateinit var calendarView: MaterialCalendarView
     private lateinit var rvEventos: RecyclerView
@@ -41,8 +43,10 @@ class CalendarioActivity : AppCompatActivity() {
 
         COLOR_PREÑEZ = ContextCompat.getColor(this, R.color.prenhez_color)
         COLOR_CELO = ContextCompat.getColor(this, R.color.celo_color)
+        COLOR_JAULAMATERNIDAD = ContextCompat.getColor(this, R.color.jaulaMaternidad_color)
         COLOR_PARTO = ContextCompat.getColor(this, R.color.parto_color)
         COLOR_DESTETE = ContextCompat.getColor(this, R.color.destete_color)
+        COLOR_EVENTO = ContextCompat.getColor(this, R.color.event_dot_color)
 
         calendarView = findViewById(R.id.calendarView)
         rvEventos = findViewById(R.id.rvEventos)
@@ -52,7 +56,6 @@ class CalendarioActivity : AppCompatActivity() {
         rvEventos.layoutManager = LinearLayoutManager(this)
         rvEventos.setHasFixedSize(true)
 
-        // Seleccionar automáticamente el día actual al iniciar
         val hoy = CalendarDay.today()
         calendarView.selectedDate = hoy
         fechaSeleccionada = hoy
@@ -73,8 +76,6 @@ class CalendarioActivity : AppCompatActivity() {
                         fecha.year,
                         fecha.month + 1,
                         fecha.day)
-
-                    Log.d("CALENDARIO_DEBUG", "Enviando fecha formateada: $fechaISO")
 
                     val intent = Intent(this, DetalleEventosActivity::class.java).apply {
                         putExtra("fecha", fechaISO)
@@ -100,13 +101,19 @@ class CalendarioActivity : AppCompatActivity() {
                 listOf(
                     Evento(cerda.fechaPrenez, "Preñez", cerda.id, COLOR_PREÑEZ),
                     Evento(cerda.fechaCelo, "Celo", cerda.id, COLOR_CELO),
+                    Evento(cerda.fechaJaulaMaternidad, "Jaula maternidad", cerda.id, COLOR_JAULAMATERNIDAD),
                     Evento(cerda.fechaParto, "Parto", cerda.id, COLOR_PARTO),
                     Evento(cerda.fechaDestete, "Destete", cerda.id, COLOR_DESTETE)
                 ).forEach { evento ->
-                    val calendarDay = CalendarDay.from(evento.fecha)
-                    eventosMap.getOrPut(calendarDay) { mutableListOf() }.add(evento)
-                    calendarView.addDecorator(EventDecorator(calendarDay, evento.color))
+                    if (true) {
+                        val calendarDay = CalendarDay.from(evento.fecha)
+                        eventosMap.getOrPut(calendarDay) { mutableListOf() }.add(evento)
+                    }
                 }
+            }
+
+            eventosMap.keys.forEach { day ->
+                calendarView.addDecorator(EventDecorator(day, COLOR_EVENTO))
             }
 
             calendarView.invalidateDecorators()

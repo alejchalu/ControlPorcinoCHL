@@ -18,7 +18,7 @@ xmlns:tools="http://schemas.android.com/tools"
     android:textColor="@color/text_primary"
     android:textSize="18sp"
     android:paddingBottom="16dp"
-    tools:text="Fecha de preñez: 15/10/2023\nRepetición de celo: 05/11/2023\nParto estimado: 26/02/2024\nDestete estimado: 19/03/2024"/>
+    tools:text="Fecha de preñez: 15/10/2023\nRepetición de celo: 27/01/2024\nMover jaula maternidad: 05/11/2023\nParto estimado: 26/02/2024\nDestete estimado: 19/03/2024"/>
 
         <Button
             android:id="@+id/btnEliminar"
